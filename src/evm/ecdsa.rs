@@ -95,9 +95,9 @@ impl ECDSA {
             Call::new_in(self),
             ECRECOVER_ADDR,
             &data,
-        );
+        )?;
         console!("{:?}", recovered);
-        Ok(recovered.unwrap_err().into())
+        Ok(recovered)
 
         // let recovered = Address::from_slice(recovered.as_slice());
         // Ok(recovered)
