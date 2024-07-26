@@ -3,7 +3,9 @@ use alloc::vec::Vec;
 use alloy_primitives::{address, Address};
 use alloy_sol_types::sol;
 use stylus_proc::{sol_interface, sol_storage, SolidityError};
-use stylus_sdk::{call::Call, prelude::external, storage::TopLevelStorage};
+use stylus_sdk::{
+    call::Call, console, prelude::external, storage::TopLevelStorage,
+};
 
 const ECRECOVER_ADDR: Address =
     address!("0000000000000000000000000000000000000001");
@@ -39,6 +41,7 @@ sol_interface! {
 
 sol_storage! {
     /// ECDSA contract.
+    #[derive(Debug)]
     pub struct ECDSA {}
 }
 
@@ -86,6 +89,8 @@ impl ECDSA {
         //     0x65e72b1cf8e189569963750e10ccb88fe89389daeeb8b735277d59cd6885ee82
         //     0x3eb5a6982b540f185703492dab77b863a88ce01f27e21ade8b2879c10fc9e653
         let data = alloy_primitives::hex!("698c7e0dcbe3ddba9ddb8e76443f81da443d0432e532271e875dc79ab9e21568000000000000000000000000000000000000000000000000000000000000001bb814eaab5953337fed2cf504a5b887cddd65a54b7429d7b191ff1331ca0726b1264de2660d307112075c15f08ba9c25c9a0cc6f8119aff3e7efb0a942773abb0");
+        console!("{:?}", &data);
+        console!("{:?}", Call::new_in(self));
         let recovered = stylus_sdk::call::static_call(
             Call::new_in(self),
             ECRECOVER_ADDR,
