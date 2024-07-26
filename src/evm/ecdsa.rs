@@ -1,6 +1,6 @@
 use alloc::vec::Vec;
 
-use alloy_primitives::{address, Address};
+use alloy_primitives::{address, Address, B256};
 use alloy_sol_types::sol;
 use stylus_proc::{sol_interface, sol_storage, SolidityError};
 use stylus_sdk::{
@@ -99,7 +99,8 @@ impl ECDSA {
         // console!("{:?}", recovered);
         // Ok(recovered)
 
-        let recovered = Address::from_slice(recovered.as_slice());
-        Ok(recovered)
+        let bytes = B256::from_slice(&recovered);
+        let addr = Address::from_word(bytes);
+        Ok(addr)
     }
 }
