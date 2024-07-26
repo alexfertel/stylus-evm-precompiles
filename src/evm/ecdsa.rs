@@ -81,7 +81,7 @@ impl ECDSA {
         // v: u8,
         // r: FixedBytes<32>,
         // s: FixedBytes<32>,
-    ) -> Result<Vec<u8>, Vec<u8>> {
+    ) -> Result<Address, Vec<u8>> {
         // cast abi-encode
         //     "ecrecover(bytes32,uint8,bytes32,bytes32)(address)"
         //     0xa1de988600a42c4b4ab089b619297c17d53cffae5d5120d82d8a92d0bb3b78f2
@@ -96,10 +96,10 @@ impl ECDSA {
             ECRECOVER_ADDR,
             &data,
         )?;
-        console!("{:?}", recovered);
-        Ok(recovered)
-
-        // let recovered = Address::from_slice(recovered.as_slice());
+        // console!("{:?}", recovered);
         // Ok(recovered)
+
+        let recovered = Address::from_slice(recovered.as_slice());
+        Ok(recovered)
     }
 }
